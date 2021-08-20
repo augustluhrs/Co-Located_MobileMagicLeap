@@ -25,3 +25,13 @@ MonoBehaviour:
     m_SpecifySize: 1
     m_Name: qrcode
     m_Texture: {fileID: 2800000, guid: 58b3d18e5daaa4680b254bdaa3864986, type: 3}
+  - m_SerializedGuid:
+      m_GuidLow: 5713324916509405965
+      m_GuidHigh: 6047975218255205264
+    m_SerializedTextureGuid:
+      m_GuidLow: 16437915784577979802
+      m_GuidHigh: 154016933377300025
+    m_Size: {x: 0.246, y: 0.17391989}
+    m_SpecifySize: 1
+    m_Name: MLImage_Submarine
+    m_Texture: {fileID: 2800000, guid: 738e959a3550e41f395659bb952d2302, type: 3}

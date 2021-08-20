@@ -37,7 +37,7 @@ namespace CoLocated_MobileAR
             //#Critical
             //This makes sure we can use PhotonNetwork.LoadLevel() on the main client
             //and all clients in the same room sync their level automatically.
-            PhotonNetwork.AutomaticallySyncScene = true;
+            PhotonNetwork.AutomaticallySyncScene = false;
         }
 
         /// <summary>

@@ -5,12 +5,15 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MobileQR_Test.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/ML_ImageTest.unity
     guid: 96dedd981e9ca4fed8df97c3d4f50755
+  - enabled: 0
+    path: Assets/Scenes/MLMobileLocalization.unity
+    guid: 76caf7f0256384e5cb1a8f29d129bf96
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: cf59749b983a24436b360d5c368dd8ef, type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: 1141fcfd42db64c9dbbc17463da06b65, type: 2}
