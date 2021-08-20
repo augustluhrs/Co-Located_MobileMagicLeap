@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SerializedLibrary: {fileID: 11400000, guid: 7f57995b3c57348ae8354135af13899d, type: 2}
-  m_MaxNumberOfMovingImages: 4
+  m_MaxNumberOfMovingImages: 1
   m_TrackedImagePrefab: {fileID: 7951040378295761463, guid: 8d731f526fb0b41e48e28882a1043a76, type: 3}
 --- !u!114 &180658077
 MonoBehaviour:
@@ -197,9 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c873bb3294b243d3bd1e212611ca269, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  phone: {fileID: 1856281864}
   clientPrefab: {fileID: 0}
-  m_WorldSpaceCanvasCamera: {fileID: 1856281869}
 --- !u!1 &405389480
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,6 +501,9 @@ GameObject:
   - component: {fileID: 1856281868}
   - component: {fileID: 1856281867}
   - component: {fileID: 1856281866}
+  - component: {fileID: 1856281871}
+  - component: {fileID: 1856281870}
+  - component: {fileID: 1856281872}
   m_Layer: 0
   m_Name: AR Camera
   m_TagString: MainCamera
@@ -610,3 +611,44 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1856281870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856281864}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d56b802109944d080cd1a7accd5adc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SerializedLibrary: {fileID: 11400000, guid: 7f57995b3c57348ae8354135af13899d, type: 2}
+  m_MaxNumberOfMovingImages: 1
+  m_TrackedImagePrefab: {fileID: 7951040378295761463, guid: 8d731f526fb0b41e48e28882a1043a76, type: 3}
+--- !u!114 &1856281871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856281864}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 520bb47c46cf8624fafb307b7d1b862a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Camera: {fileID: 0}
+--- !u!114 &1856281872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856281864}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c873bb3294b243d3bd1e212611ca269, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clientPrefab: {fileID: 0}

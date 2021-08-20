@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.MagicLeap;
+using Photon.Pun;
+using Hashtable = ExitGames.Client.Photon.Hashtable;
 
 [System.Serializable]
 public class ImageTargetInfo
@@ -18,8 +20,9 @@ public enum ImageTrackingStatus
     CameraUnavailable
 }
 
-public class ImageTrackingSystem : MonoBehaviour
+public class ML_ImageTrackingSystem : MonoBehaviour
 {
+#if PLATFORM_LUMIN
     private MLImageTracker.Target _imageTarget;
     public ImageTargetInfo TargetInfo;
     public GameObject TrackedImageFollower;
@@ -31,7 +34,15 @@ public class ImageTrackingSystem : MonoBehaviour
     public Vector3 ImagePos = Vector3.zero;
     public Quaternion ImageRot = Quaternion.identity;
 
-    #region Unity Methods
+    //some redundancies, but will clean later, just for clarity
+    private Vector3 qrPos;
+    private Quaternion qrRot;
+    //private Vector3 phonePos;
+    //public GameObject phone;
+    private bool hasScannedQR = false;
+    public GameObject clientPrefab;
+
+#region Unity Methods
     private void Awake()
     {
         UpdateImageTrackingStatus(ImageTrackingStatus.Inactive);
@@ -59,9 +70,9 @@ public class ImageTrackingSystem : MonoBehaviour
         ActivatePrivileges();
     }
 
-    #endregion
+#endregion
 
-    #region Privilege Methods
+#region Privilege Methods
     private void ActivatePrivileges()
     {
         if (CurrentStatus != ImageTrackingStatus.PrivilegeDenied)
@@ -94,9 +105,9 @@ public class ImageTrackingSystem : MonoBehaviour
             UpdateImageTrackingStatus(ImageTrackingStatus.PrivilegeDenied);
         }
     }
-    #endregion
+#endregion
 
-    #region Image Tracking Methods
+#region Image Tracking Methods
 
     private void UpdateImageTrackingStatus(ImageTrackingStatus status)
     {
@@ -166,6 +177,63 @@ public class ImageTrackingSystem : MonoBehaviour
                     TrackedImageFollower.transform.position = ImagePos;
                     TrackedImageFollower.transform.rotation = ImageRot;
                 }
+
+                // photon stuff
+
+                qrPos = imageTargetResult.Position;
+                qrRot = imageTargetResult.Rotation;
+
+                if (!PhotonNetwork.IsConnected)
+                {
+                    FindObjectOfType<CoLocated_MobileAR.Launcher>().Connect();
+                }
+                else
+                {
+                    //only instantiate prefab on first scan, but relocalize on any scan
+                    if (!hasScannedQR)
+                    {
+                        //set my qrPos so all clients know where it is in my world space
+                        Hashtable prop = new Hashtable();
+                        prop.Add("anchorPos", qrPos);
+                        prop.Add("anchorRot", qrRot);
+                        PhotonNetwork.LocalPlayer.SetCustomProperties(prop);
+
+                        //set anchorPos of NetworkPosition component -- same as this gameobject (ML Headpose)
+                        Vector3 MLPos = gameObject.transform.position;
+                        Quaternion MLRot = gameObject.transform.rotation;
+                        clientPrefab = PhotonNetwork.Instantiate("ClientPrefab", MLPos, MLRot);
+                        clientPrefab.transform.parent = gameObject.transform;
+
+                        if (clientPrefab.GetComponent<PhotonView>().IsMine)
+                        {
+                            //clientPrefab.transform.parent = gameObject.transform.GetChild(0).transform;
+                            Debug.Log("the client prefab is mine");
+                        }
+                        else
+                        {
+                            Debug.Log("the prefab isn't mine, why is this being called?");
+                        }
+
+                        Debug.LogFormat("ClientPrefab Instantiated\n\n\narCamPos: {0}, arCamRot: {1}, anchorPos: {2}",
+                            MLPos,
+                            MLRot,
+                            clientPrefab.GetComponent<CoLocated_MobileAR.NetworkPosition>().anchorPos);
+
+                        //make sure this only happens once
+                        hasScannedQR = true;
+                    }
+                    else
+                    {
+                        //update the qrPos, qrRot, and client prefab pos
+                        PhotonNetwork.LocalPlayer.CustomProperties["anchorPos"] = qrPos;
+                        PhotonNetwork.LocalPlayer.CustomProperties["anchorRot"] = qrRot;
+                        //clientPrefab.transform.position = phonePos; // same as arCamPos... won't this automatically be done from parent / conflict with network pos?
+
+                        Debug.Log("relocalizing on scan");
+                    }
+                }
+
+
                 break;
 
             case MLImageTracker.Target.TrackingStatus.NotTracked:
@@ -174,6 +242,6 @@ public class ImageTrackingSystem : MonoBehaviour
         }
     }
 
-    #endregion
-
+#endregion
+#endif
 }

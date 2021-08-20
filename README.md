@@ -1,7 +1,17 @@
-# Co-Located_MobileAR
-*Basic Unity Template for using ARFoundation and Photon for Co-Located Mobile Localization*
+# Co-Located Localization Between Mobile Devices and Magic Leap Headsets
+### Using Image Tracking for Networking Anchors
+*using ARFoundation, Photon, and Magic Leap packages*
 
-![Gif of two phones, one iPhone, one Android, connecting to same scene and tracking each other's position and rotation](MobileLocalization_QRDemo1.gif)
+<!-- ![Gif of two phones, one iPhone, one Android, connecting to same scene and tracking each other's position and rotation](MobileLocalization_QRDemo1.gif) -->
+
+
+### For ML <--> Mobile Demo
+1. Load QRMobileTest scene onto phones.
+2. Load MLMobileLocalization onto ML headset.
+
+
+
+# OLD REPO STUFF
 
 ### Why Co-Located AR is So Tricky
 AR content is placed in the Unity scene with world space coordinates that assume the origin (0,0,0) is the location that the phone opened the app. When trying to sync content across devices, traditional networking platforms align content by sending position coordinates, which is fine for non-AR apps, but quickly becomes an issue for AR apps that want to anchor content to physical space or have content that is relative to other users in that space. If the different clients have different origins because they opened the app in separate physical locations -- how do you get content to align? 
