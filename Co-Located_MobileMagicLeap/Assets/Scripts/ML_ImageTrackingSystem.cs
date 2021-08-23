@@ -34,11 +34,9 @@ public class ML_ImageTrackingSystem : MonoBehaviour
     public Vector3 ImagePos = Vector3.zero;
     public Quaternion ImageRot = Quaternion.identity;
 
-    //some redundancies, but will clean later, just for clarity
+    //for photon / network pos
     private Vector3 qrPos;
     private Quaternion qrRot;
-    //private Vector3 phonePos;
-    //public GameObject phone;
     private bool hasScannedQR = false;
     public GameObject clientPrefab;
 
@@ -121,7 +119,7 @@ public class ML_ImageTrackingSystem : MonoBehaviour
         if (CurrentStatus != ImageTrackingStatus.PrivilegeDenied)
         {
             // Hasn't been started and attempt of start fails is likely due to the camera already being in use:
-            if (!MLImageTracker.IsStarted && !MLImageTracker.Start().IsOk)
+            if (!MLImageTracker.IsStarted && !MLImageTracker.Start().IsOk) //deprecated but fine for now
             {
                 Debug.LogError("Image Tracker Could Not Start");
                 UpdateImageTrackingStatus(ImageTrackingStatus.CameraUnavailable);
@@ -178,8 +176,7 @@ public class ML_ImageTrackingSystem : MonoBehaviour
                     TrackedImageFollower.transform.rotation = ImageRot;
                 }
 
-                // photon stuff
-
+                // photon stuff -- on scan, instantiate network prefab, then update pos/rot each subsequent scan
                 qrPos = imageTargetResult.Position;
                 qrRot = imageTargetResult.Rotation;
 
@@ -204,22 +201,12 @@ public class ML_ImageTrackingSystem : MonoBehaviour
                         clientPrefab = PhotonNetwork.Instantiate("ClientPrefab", MLPos, MLRot);
                         clientPrefab.transform.parent = gameObject.transform;
 
-                        if (clientPrefab.GetComponent<PhotonView>().IsMine)
-                        {
-                            //clientPrefab.transform.parent = gameObject.transform.GetChild(0).transform;
-                            Debug.Log("the client prefab is mine");
-                        }
-                        else
-                        {
-                            Debug.Log("the prefab isn't mine, why is this being called?");
-                        }
+                        //Debug.LogFormat("ClientPrefab Instantiated\n\n\narCamPos: {0}, arCamRot: {1}, anchorPos: {2}",
+                        //    MLPos,
+                        //    MLRot,
+                        //    clientPrefab.GetComponent<CoLocated_MobileAR.NetworkPosition>().anchorPos);
 
-                        Debug.LogFormat("ClientPrefab Instantiated\n\n\narCamPos: {0}, arCamRot: {1}, anchorPos: {2}",
-                            MLPos,
-                            MLRot,
-                            clientPrefab.GetComponent<CoLocated_MobileAR.NetworkPosition>().anchorPos);
-
-                        //make sure this only happens once
+                        //make sure instantiation only happens once
                         hasScannedQR = true;
                     }
                     else
@@ -227,9 +214,8 @@ public class ML_ImageTrackingSystem : MonoBehaviour
                         //update the qrPos, qrRot, and client prefab pos
                         PhotonNetwork.LocalPlayer.CustomProperties["anchorPos"] = qrPos;
                         PhotonNetwork.LocalPlayer.CustomProperties["anchorRot"] = qrRot;
-                        //clientPrefab.transform.position = phonePos; // same as arCamPos... won't this automatically be done from parent / conflict with network pos?
 
-                        Debug.Log("relocalizing on scan");
+                        //Debug.Log("relocalizing on scan");
                     }
                 }
 

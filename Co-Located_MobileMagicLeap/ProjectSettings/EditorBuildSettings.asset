@@ -6,13 +6,13 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MobileQR_Test.unity
+    path: Assets/Scenes/MobileLocalization.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 0
     path: Assets/Scenes/ML_ImageTest.unity
     guid: 96dedd981e9ca4fed8df97c3d4f50755
   - enabled: 0
-    path: Assets/Scenes/MLMobileLocalization.unity
+    path: Assets/Scenes/MagicLeapLocalization.unity
     guid: 76caf7f0256384e5cb1a8f29d129bf96
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: cf59749b983a24436b360d5c368dd8ef, type: 2}
