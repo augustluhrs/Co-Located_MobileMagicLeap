@@ -10,7 +10,7 @@ namespace CoLocated_MobileAR
         #region Private Fields
 
         /// <summary>
-        /// The position of the client that owns this component, in their relative world space.
+        /// The position of the client that controls this component, in their personal world space.
         /// </summary>
         Vector3 networkPos;
 
@@ -39,7 +39,6 @@ namespace CoLocated_MobileAR
         /// </summary>
         public GameObject debugLinePrefab;
         GameObject debugLine;
-        GameObject camCheckLine;
 
         #endregion
 
@@ -47,7 +46,7 @@ namespace CoLocated_MobileAR
 
         /// <summary>
         /// Variable to store localPos of the anchor that clientPos should be relative to in *this* world space.
-        /// For this demo, refers to the QRCode pos, but can be extrapolated to any network anchor.
+        /// For this demo, refers to the image pos, but can be extrapolated to any network anchor.
         /// Is set on recognition of the image, before connection to ensure variable is set before we need it here.
         /// </summary>
         public Vector3 anchorPos;
@@ -89,24 +88,17 @@ namespace CoLocated_MobileAR
         /// </summary>
         void Start()
         {
-            Debug.Log("start start");
-            Debug.Log(PhotonNetwork.LocalPlayer.UserId);
             anchorPos = (Vector3)PhotonNetwork.LocalPlayer.CustomProperties["anchorPos"];
-            Debug.Log(anchorPos);
             anchorRot = (Quaternion)PhotonNetwork.LocalPlayer.CustomProperties["anchorRot"];
 
-            Debug.LogFormat("Network Position Start \n\n AnchorPos: {0}, AnchorRot: {1}\n\n",
-                anchorPos,
-                anchorRot);
+            //Debug.LogFormat("Network Position Start \n\n AnchorPos: {0}, AnchorRot: {1}\n\n",
+            //    anchorPos,
+            //    anchorRot);
 
             //debugging line 1) green if qr to this phone, 2) red if qr to other client
+            /*
             debugLine = Instantiate(debugLinePrefab);
             debugLine.GetComponent<LineRenderer>().SetPositions(new Vector3[2] { anchorPos, gameObject.transform.position });
-
-            //testing cam pos on client
-            //camCheckLine = Instantiate(debugLinePrefab);
-            //camCheckLine.GetComponent<LineRenderer>().SetPositions(new Vector3[2] { gameObject.transform.parent.transform.position, gameObject.transform.parent.transform.position + new Vector3 (0, 1f, 0)});
-            //camCheckLine.GetComponent<LineRenderer>().startColor = Color.blue;
 
             if (photonView.IsMine)
             {
@@ -117,6 +109,7 @@ namespace CoLocated_MobileAR
             {
                 debugLine.GetComponent<LineRenderer>().startColor = Color.red;
             }
+            */
         }
 
         /// <summary>
@@ -130,7 +123,6 @@ namespace CoLocated_MobileAR
             anchorPos = (Vector3)PhotonNetwork.LocalPlayer.CustomProperties["anchorPos"];
             anchorRot = (Quaternion)PhotonNetwork.LocalPlayer.CustomProperties["anchorRot"];
             debugLine.GetComponent<LineRenderer>().SetPositions(new Vector3[2] { anchorPos, gameObject.transform.position });
-            //camCheckLine.GetComponent<LineRenderer>().SetPositions(new Vector3[2] { gameObject.transform.parent.transform.position, gameObject.transform.parent.transform.position + new Vector3(0, 1f, 0)});
 
             if (!photonView.IsMine)
             {
@@ -142,13 +134,12 @@ namespace CoLocated_MobileAR
 
                 // just a big debug log, not needed for final demo, uncomment for info.
                 
-                if (!firstPassDone)
-                {
-                    Debug.Log("starting log timer coroutine");
-                    StartCoroutine( LogTimer() );
-                    firstPassDone = true;
-                }
-                
+                //if (!firstPassDone)
+                //{
+                //    Debug.Log("starting log timer coroutine");
+                //    StartCoroutine( LogTimer() );
+                //    firstPassDone = true;
+                //}
             }
         }
 
